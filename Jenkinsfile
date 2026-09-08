@@ -3,7 +3,7 @@ pipeline {
   environment { 
     DOCKER_ID = "odropikv2gtyf2bk6pyz"
     DOCKER_IMAGE = "datascientestapi"
-    DOCKER_TAG = "v.${BUILD_ID}.0" 
+      DOCKER_TAG = "v.${BUILD_ID}.0" 
     }
     stages {
         stage('Building') {
@@ -17,9 +17,15 @@ pipeline {
             }
         }
           stage('Deploying') {
-            steps{
-
-            }
+          steps{
+                script {
+              sh '''
+              docker rm -f jenkins
+              docker build -t $DOCKER_ID/$DOCKER_IMAGE:$DOCKER_TAG .
+              docker run -d -p 8000:8000 --name jenkins $DOCKER_ID/$DOCKER_IMAGE:$DOCKER_TAG
+              '''
+                }
+          }
         }
     }
 }
