@@ -3,7 +3,7 @@ pipeline {
   environment { 
     DOCKER_ID = "odropikv2gtyf2bk6pyz"
     DOCKER_IMAGE = "datascientestapi"
-      DOCKER_TAG = "v.${BUILD_ID}.0" 
+    DOCKER_TAG = "v.${BUILD_ID}.0" 
     }
     stages {
         stage('Building') {
@@ -39,7 +39,7 @@ pipeline {
             parallel {
                 stage('Pushing Image') {
                   environment {
-                      DOCKERHUB_CREDENTIALS = credentials('docker_jenkins')
+                      DOCKERHUB_CREDENTIALS = credentials('DOCKER_HUB_PASS')
                   }
                   steps {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
